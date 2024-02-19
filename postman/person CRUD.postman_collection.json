@@ -1,0 +1,357 @@
+{
+	"info": {
+		"_postman_id": "b3b9bacc-0b20-4ad9-a375-b0b99878f56a",
+		"name": "person CRUD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16950682",
+		"_collection_link": "https://warped-meteor-148559.postman.co/workspace/xulf~6b2fc0b5-48ac-4791-8050-c32216e0e52c/collection/16950682-b3b9bacc-0b20-4ad9-a375-b0b99878f56a?action=share&source=collection_link&creator=16950682"
+	},
+	"item": [
+		{
+			"name": "positive cases",
+			"item": [
+				{
+					"name": "READ people list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/api/people",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"people"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE new person",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomNumber = Math.floor(Math.random() * 90000000) + 10000000;\r",
+									"pm.environment.set(\"randomNumber\", randomNumber.toString());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"userId\", pm.response.json().id);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastName\": \"White\",\r\n    \"firstName\": \"Tom\",\r\n    \"birthName\": \"Tom White\",\r\n    \"mothersName\": \"Jane Gray\",\r\n    \"gender\": \"MALE\",\r\n    \"citizenship\": \"ENG\",\r\n    \"residentialAddress\":  {\r\n        \"postalCode\": 123,\r\n        \"city\": \"London\",\r\n        \"street\": \"Dog\",\r\n        \"houseNumber\": 23\r\n    },\r\n    \"phoneNumber\": 1234232323,\r\n    \"taxIDNumber\": \"{{randomNumber}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/api/people",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"people"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE person by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/api/people/{{userId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"people",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE person",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomNumber = Math.floor(Math.random() * 90000000) + 10000000;\r",
+									"pm.environment.set(\"randomNumber\", randomNumber.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastName\": \"Black\",\r\n    \"firstName\": \"Tom\",\r\n    \"birthName\": \"Tom Yellow\",\r\n    \"mothersName\": \"Jane Gray\",\r\n    \"gender\": \"MALE\",\r\n    \"citizenship\": \"ENG\",\r\n    \"residentialAddress\":  {\r\n        \"postalCode\": 123,\r\n        \"city\": \"London\",\r\n        \"street\": \"Dog\",\r\n        \"houseNumber\": 23\r\n    },\r\n    \"phoneNumber\": 1234232323,\r\n    \"taxIDNumber\": \"{{randomNumber}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/api/people/{{userId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"people",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "READ specific person",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/api/people/{{userId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"people",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "negative cases",
+			"item": [
+				{
+					"name": "READ person does not exist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/api/people/99999",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"people",
+								"99999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE person missing required column",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomNumber = Math.floor(Math.random() * 90000000) + 10000000;\r",
+									"pm.environment.set(\"randomNumber\", randomNumber.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastName\": \"White\",\r\n    \"birthName\": \"Tom White\",\r\n    \"mothersName\": \"Jane Gray\",\r\n    \"gender\": \"MALE\",\r\n    \"citizenship\": \"ENG\",\r\n    \"residentialAddress\":  {\r\n        \"postalCode\": 123,\r\n        \"city\": \"London\",\r\n        \"street\": \"Dog\",\r\n        \"houseNumber\": 23\r\n    },\r\n    \"phoneNumber\": 1234232323,\r\n    \"taxIDNumber\": \"{{randomNumber}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/api/people",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"people"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE person missing address field",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomNumber = Math.floor(Math.random() * 90000000) + 10000000;\r",
+									"pm.environment.set(\"randomNumber\", randomNumber.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastName\": \"White\",\r\n    \"firstName\": \"Tom\",\r\n    \"birthName\": \"Tom White\",\r\n    \"mothersName\": \"Jane Gray\",\r\n    \"gender\": \"MALE\",\r\n    \"citizenship\": \"ENG\",\r\n    \"residentialAddress\":  {\r\n        \"postalCode\": 123,\r\n        \"city\": \"London\",\r\n        \"houseNumber\": 23\r\n    },\r\n    \"phoneNumber\": 1234232323,\r\n    \"taxIDNumber\": \"{{randomNumber}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/api/people",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"people"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE person missing multiple fields",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomNumber = Math.floor(Math.random() * 90000000) + 10000000;\r",
+									"pm.environment.set(\"randomNumber\", randomNumber.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"birthName\": \"Tom White\",\r\n    \"mothersName\": \"Jane Gray\",\r\n    \"gender\": \"MALE\",\r\n    \"citizenship\": \"ENG\",\r\n    \"residentialAddress\":  {\r\n        \"postalCode\": 123,\r\n        \"city\": \"London\",\r\n        \"street\": \"Dog\",\r\n        \"houseNumber\": 23\r\n    },\r\n    \"phoneNumber\": 1234232323,\r\n    \"taxIDNumber\": \"{{randomNumber}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/api/people",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"people"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE person invalid phone number length",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomNumber = Math.floor(Math.random() * 90000000) + 10000000;\r",
+									"pm.environment.set(\"randomNumber\", randomNumber.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastName\": \"White\",\r\n    \"firstName\": \"Tom\",\r\n    \"birthName\": \"Tom White\",\r\n    \"mothersName\": \"Jane Gray\",\r\n    \"gender\": \"MALE\",\r\n    \"citizenship\": \"ENG\",\r\n    \"residentialAddress\":  {\r\n        \"postalCode\": 123,\r\n        \"city\": \"London\",\r\n        \"street\": \"Dog\",\r\n        \"houseNumber\": 23\r\n    },\r\n    \"phoneNumber\": 1234233,\r\n    \"taxIDNumber\": \"{{randomNumber}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/api/people",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"people"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "userId",
+			"value": ""
+		}
+	]
+}
