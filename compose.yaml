@@ -1,0 +1,34 @@
+services:
+    person-crud:
+        image: z4l4n/person-crud:1.0
+        container_name: person-crud-container
+        ports:
+            - "8081:8081"
+        networks:
+            - personnetwork
+        environment:    
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://personpostgresdb:5432/persondatabase
+        depends_on:
+            personpostgresdb:
+                condition: service_healthy
+                
+    personpostgresdb:
+        image: postgres
+        container_name: person-postgres-db-container
+        ports:
+            - "5432:5432"
+        environment: 
+            - POSTGRES_PASSWORD=mysecretpassword
+            - POSTGRES_USER=user
+            - POSTGRES_DB=persondatabase          
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        networks:
+            - personnetwork
+
+networks:
+    personnetwork:
+        driver: bridge
